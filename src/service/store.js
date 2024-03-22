@@ -1,15 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { userReducer } from './userSlice';
-
-const preloadedState = {
-  user: {
-    user: null,
-  },
-};
+import employeeReducer from './employeeSlice';
 
 export const store = configureStore({
   reducer: {
-    user: userReducer,
+    employees: employeeReducer,
   },
-  preloadedState,
 });
