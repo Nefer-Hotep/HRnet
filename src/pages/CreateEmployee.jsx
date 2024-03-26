@@ -14,6 +14,7 @@ function CreateEmployee() {
   const [open, setOpen] = useState(false);
   const handleModalOpen = () => setOpen(true);
   const [employeeData, setEmployeeData] = useState({
+    id: '',
     firstName: '',
     lastName: '',
     dateOfBirth: null,
@@ -40,7 +41,6 @@ function CreateEmployee() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     // Serialize date fields
     const serializedData = {
       ...employeeData,
@@ -51,7 +51,6 @@ function CreateEmployee() {
         ? dayjs(employeeData.startDate).format('MM/DD/YYYY')
         : null,
     };
-
     dispatch(addEmployee(serializedData));
     handleModalOpen();
   };

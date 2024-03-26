@@ -3,11 +3,17 @@ import { createSlice } from '@reduxjs/toolkit';
 const employeeSlice = createSlice({
   name: 'employees',
   initialState: {
-    employee: {},
+    employees: [],
   },
   reducers: {
     addEmployee: (state, action) => {
-      state.employee = action.payload;
+      // Serialize date fields
+      const serializedData = {
+        ...action.payload,
+        id: `${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      };
+      // Push the new employee to the state
+      state.employees.push(serializedData);
     },
   },
 });
