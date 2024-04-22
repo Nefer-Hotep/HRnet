@@ -7,12 +7,11 @@ import dayjs from 'dayjs';
 import departmentOptions from '../data/departmentData';
 import states from '../data/statesData.json';
 import SelectMenu from '../components/SelectMenu';
-import DialogModal from '../components/DialogModal';
+import DialogModal from 'neferhotep-hrnet-modal';
 
 function CreateEmployee() {
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
-  const handleModalOpen = () => setOpen(true);
+  const [openModal, setOpenModal] = useState(false);
   const [employeeData, setEmployeeData] = useState({
     id: '',
     firstName: '',
@@ -52,7 +51,7 @@ function CreateEmployee() {
         : null,
     };
     dispatch(addEmployee(serializedData));
-    handleModalOpen();
+    setOpenModal(true)
   };
 
   return (
@@ -126,8 +125,8 @@ function CreateEmployee() {
         </form>
       </Container>
       <DialogModal
-        open={open}
-        setOpen={setOpen}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
         message={'Employee Created !'}
       />
     </>
