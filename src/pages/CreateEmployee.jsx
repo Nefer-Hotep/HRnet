@@ -12,7 +12,8 @@ import DialogModal from 'neferhotep-hrnet-modal';
 function CreateEmployee() {
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
-  const [employeeData, setEmployeeData] = useState({
+  const [modalMessage, setModalMessage] = useState('');
+  const initialEmployeeData = {
     id: '',
     firstName: '',
     lastName: '',
@@ -23,14 +24,14 @@ function CreateEmployee() {
     state: '',
     zipCode: '',
     department: '',
-  });
+  };
+  const [employeeData, setEmployeeData] = useState(initialEmployeeData);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setEmployeeData({ ...employeeData, [name]: value });
   };
 
-  // Separate handlers for date fields because DatePicker component returns a Date object
   const handleDateChange = (name, newValue) => {
     setEmployeeData({
       ...employeeData,
@@ -40,6 +41,26 @@ function CreateEmployee() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Check for any empty required fields
+    const requiredFields = [
+      'firstName',
+      'lastName',
+      'dateOfBirth',
+      'startDate',
+      'street',
+      'city',
+      'state',
+      'zipCode',
+      'department',
+    ];
+    const isValid = requiredFields.every((field) => employeeData[field]);
+
+    if (!isValid) {
+      setModalMessage('Please fill out all required fields');
+      setOpenModal(true);
+      return;
+    }
+
     // Serialize date fields
     const serializedData = {
       ...employeeData,
@@ -51,7 +72,10 @@ function CreateEmployee() {
         : null,
     };
     dispatch(addEmployee(serializedData));
-    setOpenModal(true)
+    setModalMessage('Employee Created !');
+    setOpenModal(true);
+    // Reset form
+    setEmployeeData(initialEmployeeData);
   };
 
   return (
@@ -127,7 +151,7 @@ function CreateEmployee() {
       <DialogModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        message={'Employee Created !'}
+        message={modalMessage}
       />
     </>
   );
